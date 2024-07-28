@@ -3,11 +3,6 @@ import { ISeller, SellerModel } from "./seller.interface";
 import { bloodGroup, gender } from "../../../enums/commonEnums";
 
 export const sellerSchema = new Schema<ISeller, SellerModel>({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   name: {
     type: {
       firstName: {

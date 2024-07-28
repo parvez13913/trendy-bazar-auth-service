@@ -7,6 +7,7 @@ import ApiError from "../../../errors/ApiError";
 import { User } from "./user.model";
 
 const createSeller = async (user: IUser, seller: ISeller): Promise<IUser | null> => {
+
   // set role
   user.role = 'seller';
   let newUserAllData = null;

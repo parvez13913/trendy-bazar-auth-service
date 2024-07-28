@@ -8,7 +8,6 @@ export type SellerName = {
 
 
 export type ISeller = {
-  id: string;
   name: SellerName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth: string;

@@ -4,7 +4,6 @@ import { ISeller } from "../seller/seller.interface";
 import { IAdmin } from "../admin/admin.interface";
 
 export type IUser = {
-  id: string,
   role: string,
   password: string,
   customer?: Types.ObjectId | ICustomer,
