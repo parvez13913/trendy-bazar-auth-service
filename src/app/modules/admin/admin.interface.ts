@@ -1,15 +1,15 @@
 import { Model } from "mongoose";
 
-export type CustomerName = {
+export type AdminName = {
   firstName: string;
   middleName?: string;
   lastName: string;
 };
 
 
-export type ICustomer = {
+export type IAdmin = {
   id: string;
-  name: CustomerName;
+  name: AdminName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth: string;
   email: string;
@@ -23,4 +23,4 @@ export type ICustomer = {
 
 
 
-export type CustomerModel = Model<ICustomer, Record<string, unknown>>;
+export type AdminModel = Model<IAdmin, Record<string, unknown>>;

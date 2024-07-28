@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
-import { CustomerModel, ICustomer } from "./custome.interface";
+import { ISeller, SellerModel } from "./seller.interface";
 import { bloodGroup, gender } from "../../../enums/commonEnums";
 
-export const customerSchema = new Schema<ICustomer, CustomerModel>({
+export const sellerSchema = new Schema<ISeller, SellerModel>({
   id: {
     type: String,
     required: true,
@@ -71,4 +71,4 @@ export const customerSchema = new Schema<ICustomer, CustomerModel>({
 
 
 
-export const Customer = model<ICustomer, CustomerModel>('Customer', customerSchema);
+export const Seller = model<ISeller, SellerModel>('Seller', sellerSchema);
