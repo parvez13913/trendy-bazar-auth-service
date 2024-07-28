@@ -17,18 +17,18 @@ const usersSchema = new Schema<IUser, UserModel>(
       required: true,
       select: 0,
     },
-    // customer: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Customer',
-    // },
-    // seller: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Seller',
-    // },
-    // admin: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Admin',
-    // },
+    customer: {
+      type: Schema.Types.ObjectId,
+      ref: 'Customer',
+    },
+    seller: {
+      type: Schema.Types.ObjectId,
+      ref: 'Seller',
+    },
+    admin: {
+      type: Schema.Types.ObjectId,
+      ref: 'Admin',
+    },
   },
   {
     timestamps: true,

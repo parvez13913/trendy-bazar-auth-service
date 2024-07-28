@@ -72,3 +72,5 @@ export const adminSchema = new Schema<IAdmin, AdminModel>({
 
 
 export const Admin = model<IAdmin, AdminModel>('Admin', adminSchema);
+
+
