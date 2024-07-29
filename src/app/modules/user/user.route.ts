@@ -5,6 +5,7 @@ import { UserController } from "./user.controller";
 const router = express.Router();
 
 router.post('/createSeller', UserController.createSeller);
+router.post('/createCustomer', UserController.createCustomer);
 
 
 

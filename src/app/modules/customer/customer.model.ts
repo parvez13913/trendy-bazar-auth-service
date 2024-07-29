@@ -3,11 +3,6 @@ import { CustomerModel, ICustomer } from "./custome.interface";
 import { bloodGroup, gender } from "../../../enums/commonEnums";
 
 export const customerSchema = new Schema<ICustomer, CustomerModel>({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   name: {
     type: {
       firstName: {

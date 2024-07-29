@@ -8,7 +8,6 @@ export type CustomerName = {
 
 
 export type ICustomer = {
-  id: string;
   name: CustomerName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth: string;

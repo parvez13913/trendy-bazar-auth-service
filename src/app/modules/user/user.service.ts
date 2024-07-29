@@ -5,6 +5,8 @@ import { Seller } from "../seller/seller.model";
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 import { User } from "./user.model";
+import { ICustomer } from "../customer/custome.interface";
+import { Customer } from "../customer/customer.model";
 
 const createSeller = async (user: IUser, seller: ISeller): Promise<IUser | null> => {
 
@@ -40,6 +42,42 @@ const createSeller = async (user: IUser, seller: ISeller): Promise<IUser | null>
 };
 
 
+const createCustomer = async (user: IUser, customer: ICustomer): Promise<IUser | null> => {
+
+  // set role
+  user.role = 'customer';
+  let newUserAllData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const newCustomer = await Customer.create([customer], { session });
+
+    if (!newCustomer.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Fail to create customer');
+    };
+
+    const newUser = await User.create([user], { session });
+
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Fail to create user');
+    };
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+
+  return newUserAllData;
+};
+
+
 export const UserService = {
-  createSeller
-}
+  createSeller,
+  createCustomer
+};
