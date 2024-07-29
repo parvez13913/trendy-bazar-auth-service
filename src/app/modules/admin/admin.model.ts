@@ -3,11 +3,6 @@ import { AdminModel, IAdmin } from "./admin.interface";
 import { bloodGroup, gender } from "../../../enums/commonEnums";
 
 export const adminSchema = new Schema<IAdmin, AdminModel>({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   name: {
     type: {
       firstName: {

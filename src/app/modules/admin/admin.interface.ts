@@ -8,7 +8,6 @@ export type AdminName = {
 
 
 export type IAdmin = {
-  id: string;
   name: AdminName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth: string;
