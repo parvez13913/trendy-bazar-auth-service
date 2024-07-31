@@ -15,7 +15,6 @@ export type IUser = {
 export type IUserFilters = {
   searchTerm?: string;
   role?: string;
-  id?: string;
 }
 
 

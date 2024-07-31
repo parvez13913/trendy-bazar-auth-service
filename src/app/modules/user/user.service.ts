@@ -171,9 +171,17 @@ const getAllUsers = async (
 };
 
 
+const getSingleUser = async (id: string): Promise<IUser | null> => {
+  const result = await User.findOne({ _id: id });
+
+  return result;
+};
+
+
 export const UserService = {
   createSeller,
   createCustomer,
   createAdmin,
-  getAllUsers
+  getAllUsers,
+  getSingleUser
 };

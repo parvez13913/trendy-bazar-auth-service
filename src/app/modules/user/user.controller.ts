@@ -52,9 +52,22 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IUser[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'user fetched successfully',
+    message: 'users fetched successfully',
     meta: result.meta,
     data: result.data,
+  });
+});
+
+
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await UserService.getSingleUser(id);
+
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'user fetched successfully',
+    data: result,
   });
 });
 
@@ -65,5 +78,6 @@ export const UserController = {
   createSeller,
   createCustomer,
   createAdmin,
-  getAllUsers
+  getAllUsers,
+  getSingleUser
 };
