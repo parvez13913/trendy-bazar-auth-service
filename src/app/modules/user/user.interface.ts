@@ -12,5 +12,12 @@ export type IUser = {
 };
 
 
+export type IUserFilters = {
+  searchTerm?: string;
+  role?: string;
+  id?: string;
+}
+
+
 
 export type UserModel = Model<IUser, Record<string, unknown>>;

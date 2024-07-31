@@ -3,6 +3,10 @@ import catchAsync from "../../../shared/catchAsync";
 import { UserService } from "./user.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
+import pick from "../../../shared/pick";
+import { userFilterableFields } from "./user.constants";
+import { paginationFields } from "../../../constants/paginationConstants";
+import { IUser } from "./user.interface";
 
 const createSeller = catchAsync(async (req: Request, res: Response) => {
   const { seller, ...userData } = req.body;
@@ -40,7 +44,19 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, userFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await UserService.getAllUsers(filters, paginationOptions);
 
+  sendResponse<IUser[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'user fetched successfully',
+    meta: result.meta,
+    data: result.data,
+  });
+});
 
 
 
@@ -48,5 +64,6 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
 export const UserController = {
   createSeller,
   createCustomer,
-  createAdmin
+  createAdmin,
+  getAllUsers
 };
