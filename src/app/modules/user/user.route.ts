@@ -4,6 +4,7 @@ import { UserController } from "./user.controller";
 
 const router = express.Router();
 
+router.patch('/:id', UserController.updateUser);
 router.get('/:id', UserController.getSingleUser);
 router.get('/', UserController.getAllUsers);
 router.post('/createSeller', UserController.createSeller);

@@ -60,13 +60,26 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 
 
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id;
   const result = await UserService.getSingleUser(id);
 
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'user fetched successfully',
+    data: result,
+  });
+});
+
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const updateData = req.body;
+  const result = await UserService.updateUser(id, updateData);
+
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated successfully',
     data: result,
   });
 });
@@ -79,5 +92,6 @@ export const UserController = {
   createCustomer,
   createAdmin,
   getAllUsers,
-  getSingleUser
+  getSingleUser,
+  updateUser
 };
