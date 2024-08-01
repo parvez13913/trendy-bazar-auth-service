@@ -5,6 +5,7 @@ import { IAdmin } from "../admin/admin.interface";
 
 export type IUser = {
   role: string,
+  userId: string,
   password: string,
   customer?: Types.ObjectId | ICustomer,
   seller?: Types.ObjectId | ISeller,

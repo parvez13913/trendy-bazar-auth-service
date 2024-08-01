@@ -28,6 +28,8 @@ const createSeller = async (user: IUser, seller: ISeller): Promise<IUser | null>
       throw new ApiError(httpStatus.BAD_REQUEST, 'Fail to create seller');
     };
 
+    console.log(newSeller)
+
     const newUser = await User.create([user], { session });
 
     if (!newUser.length) {
@@ -179,7 +181,6 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
 
 
 const updateUser = async (id: string, payload: Partial<IUser>): Promise<IUser | null> => {
-  console.log(payload)
   const isUserExist = await User.findOne({ _id: id });
 
   if (!isUserExist) {
@@ -191,11 +192,43 @@ const updateUser = async (id: string, payload: Partial<IUser>): Promise<IUser | 
   return result;
 };
 
+const deleteUser = async (id: string) => {
+  const isUserExist = await User.findOne({ _id: id });
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+  };
+  let deletedUser = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    if (isUserExist.role === 'admin') {
+      deletedUser = await Admin.deleteOne({ _id: id }, { session });
+    } else if (isUserExist.role === 'seller') {
+      deletedUser = await Seller.deleteOne({ _id: id }, { session });
+    } else {
+      deletedUser = await Customer.deleteOne({ role: isUserExist?.role }, { session });
+    };
+
+    deletedUser = await User.deleteOne({ _id: id }, { session });
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+
+  return deletedUser;
+};
+
 export const UserService = {
   createSeller,
   createCustomer,
   createAdmin,
   getAllUsers,
   getSingleUser,
-  updateUser
+  updateUser,
+  deleteUser
 };
