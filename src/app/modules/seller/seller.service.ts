@@ -60,6 +60,13 @@ const getAllSellers = async (filters: ISellerFilters, paginationOptions: IPagina
 };
 
 
+const getSingleSeller = async (id: string): Promise<ISeller | null> => {
+  const result = await Seller.findOne({ _id: id });
+
+  return result;
+};
+
+
 
 
 
@@ -72,4 +79,5 @@ const getAllSellers = async (filters: ISellerFilters, paginationOptions: IPagina
 export const SellerService = {
   createSeller,
   getAllSellers,
+  getSingleSeller
 };

@@ -36,6 +36,21 @@ const getAllSellers = catchAsync(async (req: Request, res: Response) => {
 });
 
 
+const getSingleSeller = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+  const result = await SellerService.getSingleSeller(id);
+
+  sendResponse<ISeller>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Seller data fetched successsfully!!",
+    data: result,
+  });
+});
+
+
+
+
 
 
 
@@ -47,4 +62,5 @@ const getAllSellers = catchAsync(async (req: Request, res: Response) => {
 export const SellerController = {
   createSeller,
   getAllSellers,
+  getSingleSeller,
 };
