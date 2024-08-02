@@ -61,6 +61,18 @@ const updateSeller = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteSeller = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await SellerService.deleteSeller(id);
+
+  sendResponse<ISeller>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Seller deleted successsfully!!",
+    data: result,
+  });
+});
+
 
 
 
@@ -70,4 +82,5 @@ export const SellerController = {
   getAllSellers,
   getSingleSeller,
   updateSeller,
+  deleteSeller
 };

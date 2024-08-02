@@ -82,6 +82,20 @@ const updateSeller = async (id: string, payload: Partial<ISeller>): Promise<ISel
 
 
 
+const deleteSeller = async (id: string): Promise<ISeller | null> => {
+  const isSellerExist = await Seller.findOne({ _id: id });
+
+  if (!isSellerExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Seller not found");
+  };
+
+  const result = await Seller.findOneAndDelete({ _id: id });
+
+  return result;
+};
+
+
+
 
 
 
@@ -89,5 +103,6 @@ export const SellerService = {
   createSeller,
   getAllSellers,
   getSingleSeller,
-  updateSeller
+  updateSeller,
+  deleteSeller
 };

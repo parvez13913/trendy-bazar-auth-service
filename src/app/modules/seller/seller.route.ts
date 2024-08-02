@@ -12,6 +12,8 @@ router.post('/createSeller', SellerController.createSeller);
 
 router.patch('/:id', SellerController.updateSeller);
 
+router.delete('/:id', SellerController.deleteSeller);
+
 
 
 
