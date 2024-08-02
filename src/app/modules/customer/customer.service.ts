@@ -7,9 +7,16 @@ const createCustomer = async (payload: ICustomer): Promise<ICustomer> => {
   return result;
 };
 
+const getSingleCustomer = async (id: string): Promise<ICustomer | null> => {
+  const result = await Customer.findById(id);
+
+  return result;
+};
+
 
 
 
 export const CustomerService = {
   createCustomer,
+  getSingleCustomer,
 };
