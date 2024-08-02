@@ -10,6 +10,8 @@ router.get('/', SellerController.getAllSellers);
 
 router.post('/createSeller', SellerController.createSeller);
 
+router.patch('/:id', SellerController.updateSeller);
+
 
 
 

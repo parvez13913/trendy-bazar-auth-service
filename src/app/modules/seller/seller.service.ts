@@ -5,9 +5,17 @@ import { IPaginationOptions } from "../../../interfaces/pagination";
 import { sellerSearchableFields } from "./seller.constants";
 import { ISeller, ISellerFilters } from "./seller.interface";
 import { Seller } from "./seller.model";
+import httpStatus from "http-status";
+import ApiError from "../../../errors/ApiError";
 
 const createSeller = async (payload: ISeller): Promise<ISeller> => {
   const result = await Seller.create(payload);
+  return result;
+};
+
+const getSingleSeller = async (id: string): Promise<ISeller | null> => {
+  const result = await Seller.findOne({ _id: id });
+
   return result;
 };
 
@@ -60,8 +68,14 @@ const getAllSellers = async (filters: ISellerFilters, paginationOptions: IPagina
 };
 
 
-const getSingleSeller = async (id: string): Promise<ISeller | null> => {
-  const result = await Seller.findOne({ _id: id });
+const updateSeller = async (id: string, payload: Partial<ISeller>): Promise<ISeller | null> => {
+  const isSellerExist = await Seller.findOne({ _id: id });
+
+  if (!isSellerExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Seller not found");
+  };
+
+  const result = await Seller.findOneAndUpdate({ _id: id }, payload, { new: true });
 
   return result;
 };
@@ -71,13 +85,9 @@ const getSingleSeller = async (id: string): Promise<ISeller | null> => {
 
 
 
-
-
-
-
-
 export const SellerService = {
   createSeller,
   getAllSellers,
-  getSingleSeller
+  getSingleSeller,
+  updateSeller
 };
