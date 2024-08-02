@@ -12,7 +12,7 @@ const createSeller = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body;
   const result = await SellerService.createSeller(payload);
 
-  sendResponse(res, {
+  sendResponse<ISeller>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Seller created successsfully!!",
