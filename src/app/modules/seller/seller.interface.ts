@@ -22,6 +22,12 @@ export type ISeller = {
   profileImage?: string;
 };
 
+export type ISellerFilters = {
+  searchTerm?: string;
+  email?: string;
+  contactNo?: string;
+};
+
 
 
 export type SellerModel = Model<ISeller, Record<string, unknown>>;

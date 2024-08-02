@@ -3,6 +3,10 @@ import catchAsync from "../../../shared/catchAsync";
 import { SellerService } from "./seller.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
+import { ISeller } from "./seller.interface";
+import pick from "../../../shared/pick";
+import { paginationFields } from "../../../constants/paginationConstants";
+import { sellerFilterableFields } from "./seller.constants";
 
 const createSeller = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body;
@@ -17,6 +21,21 @@ const createSeller = catchAsync(async (req: Request, res: Response) => {
 });
 
 
+const getAllSellers = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, sellerFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await SellerService.getAllSellers(filters, paginationOptions);
+
+  sendResponse<ISeller[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Sellers data fetched successsfully!!",
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
+
 
 
 
@@ -27,4 +46,5 @@ const createSeller = catchAsync(async (req: Request, res: Response) => {
 
 export const SellerController = {
   createSeller,
+  getAllSellers,
 };
