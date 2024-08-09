@@ -12,6 +12,12 @@ const createAdmin = async (payload: IAdmin): Promise<IAdmin> => {
   return result;
 };
 
+const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
+  const result = await Admin.findById(id);
+
+  return result;
+};
+
 const getAllAdmins = async (filters: IAdminFilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<IAdmin[]>> => {
   const { limit, page, skip, sortBy, sortOrder } = PaginationHelper.calculatePagination(paginationOptions);
   const { searchTerm, ...filtersData } = filters;
@@ -67,4 +73,5 @@ const getAllAdmins = async (filters: IAdminFilters, paginationOptions: IPaginati
 export const AdminService = {
   createAdmin,
   getAllAdmins,
+  getSingleAdmin,
 }
