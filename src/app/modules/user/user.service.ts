@@ -10,6 +10,7 @@ const createCustomer = async (user: IUser, customer: ICustomer): Promise<IUser |
 
   // set role
   user.role = 'customer';
+  user.email = customer?.email;
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
