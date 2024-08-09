@@ -5,15 +5,11 @@ import { IAdmin, IAdminFilters } from "./admin.interface";
 import { Admin } from "./admin.model";
 import { PaginationHelper } from "../../../helpers/paginationHelper";
 import { adminSearchableFields } from "./admin.constants";
+import ApiError from "../../../errors/ApiError";
+import httpStatus from "http-status";
 
 const createAdmin = async (payload: IAdmin): Promise<IAdmin> => {
   const result = await Admin.create(payload);
-
-  return result;
-};
-
-const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
-  const result = await Admin.findById(id);
 
   return result;
 };
@@ -65,6 +61,25 @@ const getAllAdmins = async (filters: IAdminFilters, paginationOptions: IPaginati
   };
 };
 
+const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
+  const result = await Admin.findById(id);
+
+  return result;
+};
+
+
+const updateAdmin = async (id: string, payload: Partial<IAdmin>): Promise<IAdmin | null> => {
+  const isExistAdmin = await Admin.findById(id);
+
+  if (!isExistAdmin) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Admin not found');
+  };
+
+  const result = await Admin.findOneAndUpdate({ _id: id }, payload, { new: true });
+
+  return result;
+};
+
 
 
 
@@ -74,4 +89,5 @@ export const AdminService = {
   createAdmin,
   getAllAdmins,
   getSingleAdmin,
+  updateAdmin,
 }
