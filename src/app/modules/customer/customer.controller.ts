@@ -8,18 +8,6 @@ import pick from "../../../shared/pick";
 import { customerFilterableFields } from "./customer.constants";
 import { paginationFields } from "../../../constants/paginationConstants";
 
-const createCustomer = catchAsync(async (req: Request, res: Response) => {
-  const { ...payload } = req.body;
-  const result = await CustomerService.createCustomer(payload);
-
-  sendResponse<ICustomer>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Customer created successsfully!!",
-    data: result
-  });
-});
-
 
 const getAllCustomers = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, customerFilterableFields);
@@ -76,7 +64,6 @@ const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
 
 
 export const CustomerController = {
-  createCustomer,
   getAllCustomers,
   getSingleCustomer,
   updateCustomer,

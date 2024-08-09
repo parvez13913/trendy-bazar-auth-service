@@ -8,12 +8,6 @@ import { Customer } from "./customer.model";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
 
-const createCustomer = async (payload: ICustomer): Promise<ICustomer> => {
-  const result = await Customer.create(payload);
-
-  return result;
-};
-
 
 const getAllCustomers = async (filters: ICustomerilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<ICustomer[]>> => {
   const { limit, page, skip, sortBy, sortOrder } = PaginationHelper.calculatePagination(paginationOptions);
@@ -96,7 +90,6 @@ const deleteCustomer = async (id: string): Promise<ICustomer | null> => {
 
 
 export const CustomerService = {
-  createCustomer,
   getSingleCustomer,
   getAllCustomers,
   updateCustomer,

@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.get('/:id', CustomerController.getSingleCustomer);
 router.get('/', CustomerController.getAllCustomers);
-router.post('/createCustomer', CustomerController.createCustomer);
 router.patch('/:id', CustomerController.updateCustomer);
 router.delete('/:id', CustomerController.deleteCustomer);
 
