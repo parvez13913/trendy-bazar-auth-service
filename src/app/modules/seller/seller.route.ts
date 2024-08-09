@@ -8,8 +8,6 @@ router.get('/:id', SellerController.getSingleSeller);
 
 router.get('/', SellerController.getAllSellers);
 
-router.post('/createSeller', SellerController.createSeller);
-
 router.patch('/:id', SellerController.updateSeller);
 
 router.delete('/:id', SellerController.deleteSeller);

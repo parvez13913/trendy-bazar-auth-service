@@ -8,8 +8,6 @@ export type SellerName = {
 
 
 export type ISeller = {
-  password: string;
-  role: string;
   name: SellerName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth: string;

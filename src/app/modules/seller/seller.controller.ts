@@ -8,18 +8,6 @@ import pick from "../../../shared/pick";
 import { paginationFields } from "../../../constants/paginationConstants";
 import { sellerFilterableFields } from "./seller.constants";
 
-const createSeller = catchAsync(async (req: Request, res: Response) => {
-  const payload = req.body;
-  const result = await SellerService.createSeller(payload);
-
-  sendResponse<ISeller>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Seller created successsfully!!",
-    data: result
-  });
-});
-
 
 const getAllSellers = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, sellerFilterableFields);
@@ -78,7 +66,6 @@ const deleteSeller = catchAsync(async (req: Request, res: Response) => {
 
 
 export const SellerController = {
-  createSeller,
   getAllSellers,
   getSingleSeller,
   updateSeller,

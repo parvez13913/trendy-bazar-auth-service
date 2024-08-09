@@ -8,11 +8,6 @@ import { Seller } from "./seller.model";
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 
-const createSeller = async (payload: ISeller): Promise<ISeller> => {
-  const result = await Seller.create(payload);
-  return result;
-};
-
 const getSingleSeller = async (id: string): Promise<ISeller | null> => {
   const result = await Seller.findOne({ _id: id });
 
@@ -100,7 +95,6 @@ const deleteSeller = async (id: string): Promise<ISeller | null> => {
 
 
 export const SellerService = {
-  createSeller,
   getAllSellers,
   getSingleSeller,
   updateSeller,
