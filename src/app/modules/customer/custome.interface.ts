@@ -20,6 +20,12 @@ export type ICustomer = {
   profileImage?: string;
 };
 
+export type ICustomerilters = {
+  searchTerm?: string;
+  email?: string;
+  contactNo?: string;
+};
+
 
 
 export type CustomerModel = Model<ICustomer, Record<string, unknown>>;
