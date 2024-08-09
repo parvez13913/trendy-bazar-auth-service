@@ -8,8 +8,6 @@ export type AdminName = {
 
 
 export type IAdmin = {
-  password: string;
-  role: string;
   name: AdminName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth: string;

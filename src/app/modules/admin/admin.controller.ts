@@ -8,18 +8,6 @@ import pick from "../../../shared/pick";
 import { adminFilterableFields } from "./admin.constants";
 import { paginationFields } from "../../../constants/paginationConstants";
 
-const createAdmin = catchAsync(async (req: Request, res: Response) => {
-  const { ...payload } = req.body;
-  const result = await AdminService.createAdmin(payload);
-
-  sendResponse<IAdmin>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Admin created successsfully!!",
-    data: result
-  });
-});
-
 
 const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, adminFilterableFields);
@@ -75,7 +63,6 @@ const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
 
 
 export const AdminController = {
-  createAdmin,
   getAllAdmins,
   getSingleAdmin,
   updateAdmin,

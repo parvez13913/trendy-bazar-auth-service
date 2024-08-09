@@ -8,11 +8,6 @@ import { adminSearchableFields } from "./admin.constants";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
 
-const createAdmin = async (payload: IAdmin): Promise<IAdmin> => {
-  const result = await Admin.create(payload);
-
-  return result;
-};
 
 const getAllAdmins = async (filters: IAdminFilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<IAdmin[]>> => {
   const { limit, page, skip, sortBy, sortOrder } = PaginationHelper.calculatePagination(paginationOptions);
@@ -98,7 +93,6 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
 
 
 export const AdminService = {
-  createAdmin,
   getAllAdmins,
   getSingleAdmin,
   updateAdmin,

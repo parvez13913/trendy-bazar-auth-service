@@ -29,10 +29,23 @@ const createSeller = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createAdmin = catchAsync(async (req: Request, res: Response) => {
+  const { admin, ...userData } = req.body;
+  const result = await UserService.createAdmin(userData, admin);
+
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Admin created successsfully!!",
+    data: result
+  });
+});
+
 
 
 
 export const UserController = {
   createCustomer,
   createSeller,
+  createAdmin,
 }
