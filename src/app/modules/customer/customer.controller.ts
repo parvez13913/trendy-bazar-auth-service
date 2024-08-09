@@ -47,6 +47,19 @@ const getSingleCustomer = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateCustomer = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const payload = req.body;
+  const result = await CustomerService.updateCustomer(id, payload);
+
+  sendResponse<ICustomer>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Customer updated successsfully!!",
+    data: result
+  });
+});
+
 
 
 
@@ -54,4 +67,5 @@ export const CustomerController = {
   createCustomer,
   getAllCustomers,
   getSingleCustomer,
+  updateCustomer,
 };

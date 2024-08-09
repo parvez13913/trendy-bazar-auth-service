@@ -5,6 +5,8 @@ import { IPaginationOptions } from "../../../interfaces/pagination";
 import { ICustomer, ICustomerilters } from "./custome.interface";
 import { customerSearchableFields } from "./customer.constants";
 import { Customer } from "./customer.model";
+import ApiError from "../../../errors/ApiError";
+import httpStatus from "http-status";
 
 const createCustomer = async (payload: ICustomer): Promise<ICustomer> => {
   const result = await Customer.create(payload);
@@ -66,6 +68,18 @@ const getSingleCustomer = async (id: string): Promise<ICustomer | null> => {
   return result;
 };
 
+const updateCustomer = async (id: string, payload: Partial<ICustomer>): Promise<ICustomer | null> => {
+  const isCustomerExist = await Customer.findOne({ _id: id });
+
+  if (!isCustomerExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Customer is not found");
+  };
+
+  const result = await Customer.findOneAndUpdate({ _id: id }, payload, { new: true });
+
+  return result;
+};
+
 
 
 
@@ -73,4 +87,5 @@ export const CustomerService = {
   createCustomer,
   getSingleCustomer,
   getAllCustomers,
+  updateCustomer,
 };
