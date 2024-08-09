@@ -80,6 +80,18 @@ const updateAdmin = async (id: string, payload: Partial<IAdmin>): Promise<IAdmin
   return result;
 };
 
+const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
+  const isExistAdmin = await Admin.findById(id);
+
+  if (!isExistAdmin) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Admin not found');
+  };
+
+  const result = await Admin.findOneAndDelete({ _id: id });
+
+  return result;
+};
+
 
 
 
@@ -90,4 +102,5 @@ export const AdminService = {
   getAllAdmins,
   getSingleAdmin,
   updateAdmin,
+  deleteAdmin,
 }
