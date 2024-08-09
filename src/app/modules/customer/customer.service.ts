@@ -80,6 +80,18 @@ const updateCustomer = async (id: string, payload: Partial<ICustomer>): Promise<
   return result;
 };
 
+const deleteCustomer = async (id: string): Promise<ICustomer | null> => {
+  const isCustomerExist = await Customer.findOne({ _id: id });
+
+  if (!isCustomerExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Customer is not found");
+  };
+
+  const result = await Customer.findOneAndDelete({ _id: id });
+
+  return result;
+};
+
 
 
 
@@ -88,4 +100,5 @@ export const CustomerService = {
   getSingleCustomer,
   getAllCustomers,
   updateCustomer,
+  deleteCustomer,
 };
