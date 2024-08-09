@@ -22,6 +22,12 @@ export type IAdmin = {
   profileImage?: string;
 };
 
+export type IAdminFilters = {
+  searchTerm?: string;
+  email?: string;
+  contactNo?: string;
+};
+
 
 
 export type AdminModel = Model<IAdmin, Record<string, unknown>>;
