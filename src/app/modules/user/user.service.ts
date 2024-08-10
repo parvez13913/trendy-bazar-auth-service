@@ -166,6 +166,12 @@ const getAllUsers = async (filters: IUserFilters, paginationOptions: IPagination
   };
 };
 
+const getSingleUser = async (id: string): Promise<IUser | null> => {
+  const result = await User.findOne({ _id: id });
+
+  return result;
+};
+
 
 
 
@@ -174,4 +180,5 @@ export const UserService = {
   createSeller,
   createAdmin,
   getAllUsers,
+  getSingleUser,
 };

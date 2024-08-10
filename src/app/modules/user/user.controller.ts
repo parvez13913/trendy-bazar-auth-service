@@ -58,6 +58,18 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await UserService.getSingleUser(id);
+
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User data fetched successsfully!!",
+    data: result,
+  });
+});
+
 
 
 
@@ -66,4 +78,5 @@ export const UserController = {
   createSeller,
   createAdmin,
   getAllUsers,
+  getSingleUser
 }
