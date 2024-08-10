@@ -1,4 +1,4 @@
-import { SortOrder } from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import { PaginationHelper } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
@@ -7,6 +7,7 @@ import { customerSearchableFields } from "./customer.constants";
 import { Customer } from "./customer.model";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
+import { User } from "../user/user.model";
 
 
 const getAllCustomers = async (filters: ICustomerilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<ICustomer[]>> => {
@@ -74,16 +75,30 @@ const updateCustomer = async (id: string, payload: Partial<ICustomer>): Promise<
   return result;
 };
 
-const deleteCustomer = async (id: string): Promise<ICustomer | null> => {
-  const isCustomerExist = await Customer.findOne({ _id: id });
+const deleteCustomer = async (id: string) => {
+  const isUserExist = await Customer.findOne({ _id: id });
 
-  if (!isCustomerExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Customer is not found");
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Seller does not exist');
   };
 
-  const result = await Customer.findOneAndDelete({ _id: id });
+  let newCustomerData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    newCustomerData = await Customer.deleteOne({ _id: id }, { session });
 
-  return result;
+    await User.deleteOne({ email: isUserExist?.email }, { session });
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+  return newCustomerData
+
 };
 
 
