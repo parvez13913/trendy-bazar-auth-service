@@ -173,6 +173,39 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
 };
 
 
+const deleteUser = async (id: string) => {
+  const isUserExist = await User.findOne({ _id: id });
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  };
+
+  let newUserData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    if (isUserExist?.role === 'admin') {
+      await Admin.deleteOne({ email: isUserExist?.email }, { session });
+    } else if (isUserExist?.role === 'seller') {
+      await Seller.deleteOne({ email: isUserExist?.email }, { session });
+    } else if (isUserExist?.role === 'customer') {
+      await Customer.deleteOne({ email: isUserExist?.email }, { session });
+    };
+
+    newUserData = await User.deleteOne({ _id: id }, { session });
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+  return newUserData
+
+};
+
+
 
 
 export const UserService = {
@@ -181,4 +214,5 @@ export const UserService = {
   createAdmin,
   getAllUsers,
   getSingleUser,
+  deleteUser
 };

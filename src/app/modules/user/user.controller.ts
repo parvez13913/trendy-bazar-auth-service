@@ -70,6 +70,18 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteUser = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await UserService.deleteUser(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User deleted successsfully!!",
+    data: result,
+  });
+});
+
 
 
 
@@ -78,5 +90,6 @@ export const UserController = {
   createSeller,
   createAdmin,
   getAllUsers,
-  getSingleUser
-}
+  getSingleUser,
+  deleteUser
+};

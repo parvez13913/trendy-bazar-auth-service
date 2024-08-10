@@ -11,6 +11,7 @@ router.get("/", UserController.getAllUsers);
 router.post("/createCustomer", UserController.createCustomer);
 router.post("/createSeller", UserController.createSeller);
 router.post("/createAdmin", UserController.createAdmin);
+router.delete("/:id", UserController.deleteUser);
 
 
 
