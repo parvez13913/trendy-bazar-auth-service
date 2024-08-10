@@ -30,3 +30,9 @@ export type UserModel = {
   ): Promise<boolean>;
 } & Model<IUser>;
 
+
+export type IUserFilters = {
+  searchTerm?: string;
+  email?: string;
+};
+

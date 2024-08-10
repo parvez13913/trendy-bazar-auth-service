@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import { ICustomer } from "../customer/custome.interface";
-import { IUser } from "./user.interface";
+import { IUser, IUserFilters } from "./user.interface";
 import { Customer } from "../customer/customer.model";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
@@ -9,6 +9,10 @@ import { ISeller } from "../seller/seller.interface";
 import { Seller } from "../seller/seller.model";
 import { IAdmin } from "../admin/admin.interface";
 import { Admin } from "../admin/admin.model";
+import { IGenericResponse } from "../../../interfaces/common";
+import { PaginationHelper } from "../../../helpers/paginationHelper";
+import { IPaginationOptions } from "../../../interfaces/pagination";
+import { userSearchableFields } from "./user.constants";
 
 const createCustomer = async (user: IUser, customer: ICustomer): Promise<IUser | null> => {
 
@@ -115,6 +119,53 @@ const createAdmin = async (user: IUser, admin: IAdmin): Promise<IUser | null> =>
   return newUserAllData;
 };
 
+const getAllUsers = async (filters: IUserFilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<IUser[]>> => {
+  const { limit, page, skip, sortBy, sortOrder } = PaginationHelper.calculatePagination(paginationOptions);
+  const { searchTerm, ...filtersData } = filters;
+
+  const andCondition = [];
+
+  if (searchTerm) {
+    andCondition.push({
+      $or: userSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  };
+
+  if (Object.keys(filtersData).length) {
+    andCondition.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  };
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  };
+
+  const wereConditions = andCondition.length > 0 ? { $and: andCondition } : {};
+
+  const result = await User.find(wereConditions);
+
+  const total = await User.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
 
 
 
@@ -122,4 +173,5 @@ export const UserService = {
   createCustomer,
   createSeller,
   createAdmin,
-}
+  getAllUsers,
+};
