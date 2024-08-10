@@ -79,7 +79,7 @@ const deleteCustomer = async (id: string) => {
   const isUserExist = await Customer.findOne({ _id: id });
 
   if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Seller does not exist');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Customer does not exist');
   };
 
   let newCustomerData = null;

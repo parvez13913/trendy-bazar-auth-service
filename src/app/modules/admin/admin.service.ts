@@ -1,4 +1,4 @@
-import { SortOrder } from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import { IAdmin, IAdminFilters } from "./admin.interface";
@@ -7,6 +7,7 @@ import { PaginationHelper } from "../../../helpers/paginationHelper";
 import { adminSearchableFields } from "./admin.constants";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
+import { User } from "../user/user.model";
 
 
 const getAllAdmins = async (filters: IAdminFilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<IAdmin[]>> => {
@@ -75,16 +76,30 @@ const updateAdmin = async (id: string, payload: Partial<IAdmin>): Promise<IAdmin
   return result;
 };
 
-const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
-  const isExistAdmin = await Admin.findById(id);
+const deleteAdmin = async (id: string) => {
+  const isUserExist = await Admin.findOne({ _id: id });
 
-  if (!isExistAdmin) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Admin not found');
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin does not exist');
   };
 
-  const result = await Admin.findOneAndDelete({ _id: id });
+  let newAdminData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    newAdminData = await Admin.deleteOne({ _id: id }, { session });
 
-  return result;
+    await User.deleteOne({ email: isUserExist?.email }, { session });
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+  return newAdminData
+
 };
 
 
