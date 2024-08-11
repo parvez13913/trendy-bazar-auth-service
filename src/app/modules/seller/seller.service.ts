@@ -65,15 +65,30 @@ const getAllSellers = async (filters: ISellerFilters, paginationOptions: IPagina
 
 
 const updateSeller = async (id: string, payload: Partial<ISeller>): Promise<ISeller | null> => {
-  const isSellerExist = await Seller.findOne({ _id: id });
+  const isSellerExist = await Seller.findById(id);
 
   if (!isSellerExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Seller not found");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Seller is  not found');
   };
 
-  const result = await Seller.findOneAndUpdate({ _id: id }, payload, { new: true });
 
-  return result;
+  let updateSellerData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    updateSellerData = await Seller.findOneAndUpdate({ _id: id }, payload, { session });
+
+    await User.findOneAndUpdate({ email: isSellerExist?.email }, payload, { session });
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+  return updateSellerData;
+
 };
 
 

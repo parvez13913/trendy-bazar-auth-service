@@ -88,7 +88,7 @@ const updateCustomer = async (id: string, payload: Partial<ICustomer>): Promise<
   };
   return updateCustomerData;
 
-}
+};
 
 const deleteCustomer = async (id: string) => {
   const isUserExist = await Customer.findOne({ _id: id });
