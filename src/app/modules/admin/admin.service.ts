@@ -71,9 +71,23 @@ const updateAdmin = async (id: string, payload: Partial<IAdmin>): Promise<IAdmin
     throw new ApiError(httpStatus.BAD_REQUEST, 'Admin not found');
   };
 
-  const result = await Admin.findOneAndUpdate({ _id: id }, payload, { new: true });
 
-  return result;
+  let updateAdminData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    updateAdminData = await Admin.findOneAndUpdate({ _id: id }, payload, { session });
+
+    await User.findOneAndUpdate({ email: isExistAdmin?.email }, payload, { session });
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+  return updateAdminData;
 };
 
 const deleteAdmin = async (id: string) => {
