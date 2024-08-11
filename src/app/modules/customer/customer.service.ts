@@ -64,16 +64,31 @@ const getSingleCustomer = async (id: string): Promise<ICustomer | null> => {
 };
 
 const updateCustomer = async (id: string, payload: Partial<ICustomer>): Promise<ICustomer | null> => {
-  const isCustomerExist = await Customer.findOne({ _id: id });
+  const isCustomerExist = await Customer.findById(id);
 
   if (!isCustomerExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Customer is not found");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Customer not found');
   };
 
-  const result = await Customer.findOneAndUpdate({ _id: id }, payload, { new: true });
 
-  return result;
-};
+  let updateCustomerData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    updateCustomerData = await Customer.findOneAndUpdate({ _id: id }, payload, { session });
+
+    await User.findOneAndUpdate({ email: isCustomerExist?.email }, payload, { session });
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  };
+  return updateCustomerData;
+
+}
 
 const deleteCustomer = async (id: string) => {
   const isUserExist = await Customer.findOne({ _id: id });
@@ -109,4 +124,4 @@ export const CustomerService = {
   getAllCustomers,
   updateCustomer,
   deleteCustomer,
-};
+}
