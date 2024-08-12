@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { bloodGroup, gender } from "../../../enums/commonEnums";
+import { bloodGroup, gender } from "../../../enum/commonEnums";
 
 const updateCustomerZodSchema = z.object({
   body: z.object({

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { ISeller, SellerModel } from "./seller.interface";
-import { bloodGroup, gender } from "../../../enums/commonEnums";
+import { bloodGroup, gender } from "../../../enum/commonEnums";
 
 export const sellerSchema = new Schema<ISeller, SellerModel>({
   name: {

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { CustomerModel, ICustomer } from "./custome.interface";
-import { bloodGroup, gender } from "../../../enums/commonEnums";
+import { bloodGroup, gender } from "../../../enum/commonEnums";
 
 export const customerSchema = new Schema<ICustomer, CustomerModel>({
   name: {

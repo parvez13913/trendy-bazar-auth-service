@@ -31,22 +31,12 @@ router.get(
 router.post(
   "/createCustomer",
   validateRequest(UserValidation.createUserZodSchema),
-  auth(
-    ENUM_USER_ROLE.SUPER_ADMIN,
-    ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.CUSTOMER
-  ),
   UserController.createCustomer
 );
 
 router.post(
   "/createSeller",
   validateRequest(UserValidation.createUserZodSchema),
-  auth(
-    ENUM_USER_ROLE.SUPER_ADMIN,
-    ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.SELLER
-  ),
   UserController.createSeller
 );
 

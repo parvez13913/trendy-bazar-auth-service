@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { AdminModel, IAdmin } from "./admin.interface";
-import { bloodGroup, gender } from "../../../enums/commonEnums";
+import { bloodGroup, gender } from "../../../enum/commonEnums";
 
 export const adminSchema = new Schema<IAdmin, AdminModel>({
   name: {
