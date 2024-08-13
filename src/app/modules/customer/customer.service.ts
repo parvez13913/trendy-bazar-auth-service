@@ -2,7 +2,7 @@ import mongoose, { SortOrder } from "mongoose";
 import { PaginationHelper } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
-import { ICustomer, ICustomerilters } from "./custome.interface";
+import { ICustomer, ICustomerfilters } from "./custome.interface";
 import { customerSearchableFields } from "./customer.constants";
 import { Customer } from "./customer.model";
 import ApiError from "../../../errors/ApiError";
@@ -10,7 +10,7 @@ import httpStatus from "http-status";
 import { User } from "../user/user.model";
 
 
-const getAllCustomers = async (filters: ICustomerilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<ICustomer[]>> => {
+const getAllCustomers = async (filters: ICustomerfilters, paginationOptions: IPaginationOptions): Promise<IGenericResponse<ICustomer[]>> => {
   const { limit, page, skip, sortBy, sortOrder } = PaginationHelper.calculatePagination(paginationOptions);
   const { searchTerm, ...filtersData } = filters;
 

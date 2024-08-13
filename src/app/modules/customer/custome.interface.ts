@@ -20,7 +20,7 @@ export type ICustomer = {
   profileImage?: string;
 };
 
-export type ICustomerilters = {
+export type ICustomerfilters = {
   searchTerm?: string;
   email?: string;
   contactNo?: string;

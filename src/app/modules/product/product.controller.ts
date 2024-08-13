@@ -7,7 +7,6 @@ import httpStatus from "http-status";
 
 const createProduct = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
-  console.log(payload);
 
   const result = await ProductService.createProduct(payload);
 
