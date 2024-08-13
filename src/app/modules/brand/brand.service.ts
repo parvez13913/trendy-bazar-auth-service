@@ -61,6 +61,12 @@ const getAllBrands = async (filters: IBrandfilters, paginationOptions: IPaginati
 };
 
 
+const getSingleBrand = async (id: string): Promise<IBrand | null> => {
+  const result = await Brand.findOne({ _id: id });
+
+  return result;
+};
+
 
 
 
@@ -68,4 +74,5 @@ const getAllBrands = async (filters: IBrandfilters, paginationOptions: IPaginati
 export const BrandService = {
   createBrand,
   getAllBrands,
+  getSingleBrand,
 };
