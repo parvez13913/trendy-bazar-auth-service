@@ -60,9 +60,17 @@ const getAllProducts = async (filters: IProductfilters, paginationOptions: IPagi
 };
 
 
+const getSingleProduct = async (id: string): Promise<IProduct | null> => {
+  const result = await Product.findOne({ _id: id });
+
+  return result;
+};
+
+
 
 
 export const ProductService = {
   createProduct,
   getAllProducts,
+  getSingleProduct,
 };
