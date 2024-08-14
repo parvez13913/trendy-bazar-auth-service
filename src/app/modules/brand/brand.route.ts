@@ -9,6 +9,8 @@ router.get('/', BrandController.getAllBrands);
 
 router.post('/createBrand', BrandController.createBrand);
 
+router.patch('/:id', BrandController.updateBrand);
+
 
 
 

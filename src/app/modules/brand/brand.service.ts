@@ -5,6 +5,8 @@ import { IPaginationOptions } from "../../../interfaces/pagination";
 import { brandSearchableFields } from "./brand.constants";
 import { IBrand, IBrandfilters } from "./brand.interface";
 import { Brand } from "./brand.model";
+import ApiError from "../../../errors/ApiError";
+import httpStatus from "http-status";
 
 const createBrand = async (payload: IBrand): Promise<IBrand> => {
   const result = await Brand.create(payload);
@@ -67,6 +69,19 @@ const getSingleBrand = async (id: string): Promise<IBrand | null> => {
   return result;
 };
 
+const updateBrand = async (id: string, payload: Partial<IBrand>): Promise<IBrand | null> => {
+  const isBrandExist = await Brand.findOne({ _id: id });
+
+  if (!isBrandExist) {
+    throw new ApiError(httpStatus.OK, "Brand does not exist");
+  };
+
+  const result = await Brand.findOneAndUpdate({ _id: id }, payload, { new: true });
+
+
+  return result;
+};
+
 
 
 
@@ -75,4 +90,5 @@ export const BrandService = {
   createBrand,
   getAllBrands,
   getSingleBrand,
+  updateBrand
 };

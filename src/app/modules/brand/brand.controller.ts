@@ -50,10 +50,25 @@ const getSingleBrand = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateBrand = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const payload = req.body;
+  const result = await BrandService.updateBrand(id, payload);
+
+
+  sendResponse<IBrand>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Brand updated successsfully!!",
+    data: result
+  });
+});
+
 
 
 export const BrandController = {
   createBrand,
   getAllBrands,
   getSingleBrand,
+  updateBrand,
 };
