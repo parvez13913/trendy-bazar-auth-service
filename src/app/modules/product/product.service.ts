@@ -81,6 +81,18 @@ const updateProduct = async (id: string, payload: Partial<IProduct>): Promise<IP
   return result;
 };
 
+const deleteProduct = async (id: string): Promise<IProduct | null> => {
+  const isProductExist = await Product.findOne({ _id: id });
+
+  if (!isProductExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Product does not exist");
+  };
+
+  const result = await Product.findOneAndDelete({ _id: id });
+
+  return result;
+};
+
 
 
 
@@ -89,4 +101,5 @@ export const ProductService = {
   getAllProducts,
   getSingleProduct,
   updateProduct,
+  deleteProduct
 };
