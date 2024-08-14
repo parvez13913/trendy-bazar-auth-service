@@ -11,6 +11,8 @@ router.post('/createBrand', BrandController.createBrand);
 
 router.patch('/:id', BrandController.updateBrand);
 
+router.delete('/:id', BrandController.deleteBrand);
+
 
 
 

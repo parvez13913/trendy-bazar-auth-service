@@ -82,6 +82,19 @@ const updateBrand = async (id: string, payload: Partial<IBrand>): Promise<IBrand
   return result;
 };
 
+const deleteBrand = async (id: string): Promise<IBrand | null> => {
+  const isBrandExist = await Brand.findOne({ _id: id });
+
+  if (!isBrandExist) {
+    throw new ApiError(httpStatus.OK, "Brand does not exist");
+  };
+
+  const result = await Brand.findOneAndDelete({ _id: id });
+
+
+  return result;
+};
+
 
 
 
@@ -90,5 +103,6 @@ export const BrandService = {
   createBrand,
   getAllBrands,
   getSingleBrand,
-  updateBrand
+  updateBrand,
+  deleteBrand
 };

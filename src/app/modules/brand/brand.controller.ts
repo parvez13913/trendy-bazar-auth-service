@@ -64,6 +64,19 @@ const updateBrand = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteBrand = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await BrandService.deleteBrand(id);
+
+
+  sendResponse<IBrand>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Brand deleted successsfully!!",
+    data: result
+  });
+});
+
 
 
 export const BrandController = {
@@ -71,4 +84,5 @@ export const BrandController = {
   getAllBrands,
   getSingleBrand,
   updateBrand,
+  deleteBrand
 };
