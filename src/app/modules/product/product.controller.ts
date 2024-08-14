@@ -4,6 +4,9 @@ import { ProductService } from "./product.service";
 import sendResponse from "../../../shared/sendResponse";
 import { IProduct } from "./product.interface";
 import httpStatus from "http-status";
+import pick from "../../../shared/pick";
+import { productFilterableFields } from "./product.constants";
+import { paginationFields } from "../../../constants/paginationConstants";
 
 const createProduct = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
@@ -18,9 +21,25 @@ const createProduct = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllProducts = catchAsync(async (req: Request, res: Response) => {
+
+  const filters = pick(req.query, productFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await ProductService.getAllProducts(filters, paginationOptions);
+
+  sendResponse<IProduct[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Products data fetched successsfully!!",
+    meta: result.meta,
+    data: result.data
+  });
+});
+
 
 
 
 export const ProductController = {
   createProduct,
+  getAllProducts,
 };

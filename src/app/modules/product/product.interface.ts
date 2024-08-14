@@ -10,5 +10,11 @@ export type IProduct = {
   brand: Types.ObjectId | IBrand;
 };
 
+export type IProductfilters = {
+  searchTerm?: string;
+  productName?: string;
+  price?: string;
+};
+
 
 export type ProductModel = Model<IProduct, Record<string, unknown>>;
