@@ -73,7 +73,7 @@ const updateBrand = async (id: string, payload: Partial<IBrand>): Promise<IBrand
   const isBrandExist = await Brand.findOne({ _id: id });
 
   if (!isBrandExist) {
-    throw new ApiError(httpStatus.OK, "Brand does not exist");
+    throw new ApiError(httpStatus.NOT_FOUND, "Brand does not exist");
   };
 
   const result = await Brand.findOneAndUpdate({ _id: id }, payload, { new: true });
@@ -86,7 +86,7 @@ const deleteBrand = async (id: string): Promise<IBrand | null> => {
   const isBrandExist = await Brand.findOne({ _id: id });
 
   if (!isBrandExist) {
-    throw new ApiError(httpStatus.OK, "Brand does not exist");
+    throw new ApiError(httpStatus.NOT_FOUND, "Brand does not exist");
   };
 
   const result = await Brand.findOneAndDelete({ _id: id });

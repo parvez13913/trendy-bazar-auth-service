@@ -5,6 +5,8 @@ import { IProduct, IProductfilters } from "./product.interface";
 import { Product } from "./product.model";
 import { PaginationHelper } from "../../../helpers/paginationHelper";
 import { productSearchableFields } from "./product.constants";
+import ApiError from "../../../errors/ApiError";
+import httpStatus from "http-status";
 
 const createProduct = async (payload: IProduct): Promise<IProduct> => {
   const result = await Product.create(payload);
@@ -67,10 +69,24 @@ const getSingleProduct = async (id: string): Promise<IProduct | null> => {
 };
 
 
+const updateProduct = async (id: string, payload: Partial<IProduct>): Promise<IProduct | null> => {
+  const isProductExist = await Product.findOne({ _id: id });
+
+  if (!isProductExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Product does not exist");
+  };
+
+  const result = await Product.findOneAndUpdate({ _id: id }, payload, { new: true });
+
+  return result;
+};
+
+
 
 
 export const ProductService = {
   createProduct,
   getAllProducts,
   getSingleProduct,
+  updateProduct,
 };
