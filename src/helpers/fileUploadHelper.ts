@@ -2,11 +2,12 @@ import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import * as fs from 'fs';
 import { ICloudinaryResponse, IUploadFile } from '../interfaces/file';
+import config from '../config';
 
 cloudinary.config({
-  cloud_name: 'dbqkfq9bz',
-  api_key: '615398754535836',
-  api_secret: '-rtqqHZ7FxHVeZjCop0KzoMQZTs'
+  cloud_name: config.cloudinary.cloud_name,
+  api_key: config.cloudinary.api_key,
+  api_secret: config.cloudinary.api_secret
 });
 
 const storage = multer.diskStorage({

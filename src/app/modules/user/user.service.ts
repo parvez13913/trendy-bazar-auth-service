@@ -13,6 +13,9 @@ import { IGenericResponse } from "../../../interfaces/common";
 import { PaginationHelper } from "../../../helpers/paginationHelper";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import { userSearchableFields } from "./user.constants";
+import { Request } from "express";
+import { IUploadFile } from "../../../interfaces/file";
+import { FileUploadHelper } from "../../../helpers/fileUploadHelper";
 
 const createCustomer = async (user: IUser, customer: ICustomer): Promise<IUser | null> => {
 
@@ -49,8 +52,16 @@ const createCustomer = async (user: IUser, customer: ICustomer): Promise<IUser |
   return newUserAllData;
 };
 
-const createSeller = async (user: IUser, seller: ISeller): Promise<IUser | null> => {
+const createSeller = async (req: Request): Promise<IUser | null> => {
 
+  const file = req.file as IUploadFile;
+  const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
+
+  if (uploadedImage) {
+    req.body.profileImage = uploadedImage.secure_url;
+  };
+
+  const { seller, ...user } = req.body;
   // set role
   user.role = 'seller';
   user.email = seller?.email;

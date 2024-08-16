@@ -21,8 +21,7 @@ const createCustomer = catchAsync(async (req: Request, res: Response) => {
 });
 
 const createSeller = catchAsync(async (req: Request, res: Response) => {
-  const { seller, ...userData } = req.body;
-  const result = await UserService.createSeller(userData, seller);
+  const result = await UserService.createSeller(req);
 
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
