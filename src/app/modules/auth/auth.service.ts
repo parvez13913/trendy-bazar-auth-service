@@ -1,5 +1,6 @@
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
+import bcrypt from 'bcrypt';
 import { User } from "../user/user.model";
 import { ILoginUser, ILoginUserResponse, IRefreshTokenResponse } from "./auth.interface";
 import { JwtHelpers } from "../../../helpers/jwtHelpers";
@@ -120,10 +121,30 @@ const forgotPassword = async (payload: { email: string }) => {
 };
 
 
+const resetPassword = async (payload: { email: string, newPassword: string }, token: string) => {
+  const { email, newPassword } = payload;
+  const user = await User.findOne({ email: email }, { email: 1 });
+
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "User not found!!");
+  };
+
+  const isVerified = await JwtHelpers.verifiedToken(token, config.jwt.secret as Secret,);
+
+  if (!isVerified) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "You are noot authorized");
+  };
+
+  const password = await bcrypt.hash(newPassword, Number(config.bcrypt_salt_rounds));
+
+  await User.updateOne({ email }, { password });
+};
+
 
 
 export const AuthService = {
   loginUser,
   refreshToken,
   forgotPassword,
+  resetPassword,
 };

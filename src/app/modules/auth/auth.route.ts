@@ -9,6 +9,8 @@ router.post('/refreshToken', AuthController.refreshToken);
 
 router.post('/forgotPassword', AuthController.forgotPassword);
 
+router.post('/resetPassword', AuthController.resetPassword);
+
 
 
 
