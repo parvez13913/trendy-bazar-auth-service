@@ -100,11 +100,16 @@ const createSeller = async (req: Request): Promise<IUser | null> => {
   return newUserAllData;
 };
 
-const createAdmin = async (user: IUser, admin: IAdmin): Promise<IUser | null> => {
+const createAdmin = async (req: Request): Promise<IUser | null> => {
 
+  const file = req.file as IUploadFile;
+  const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
+
+  const { admin, ...user } = req.body;
   // set role
   user.role = 'admin';
   user.email = admin?.email;
+  admin.profileImage = uploadedImage?.secure_url;
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {

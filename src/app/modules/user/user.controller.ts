@@ -31,8 +31,7 @@ const createSeller = catchAsync(async (req: Request, res: Response) => {
 });
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
-  const { admin, ...userData } = req.body;
-  const result = await UserService.createAdmin(userData, admin);
+  const result = await UserService.createAdmin(req);
 
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,

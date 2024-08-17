@@ -55,7 +55,12 @@ router.post(
     ENUM_USER_ROLE.SUPER_ADMIN,
     ENUM_USER_ROLE.ADMIN,
   ),
-  UserController.createAdmin
+  FileUploadHelper.upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = UserValidation.createAdminZodSchema.parse(JSON.parse(req.body.data));
+
+    return UserController.createAdmin(req, res, next);
+  }
 );
 
 router.delete(
