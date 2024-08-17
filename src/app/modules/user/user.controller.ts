@@ -9,8 +9,7 @@ import { userFilterableFields } from "./user.constants";
 import { paginationFields } from "../../../constants/paginationConstants";
 
 const createCustomer = catchAsync(async (req: Request, res: Response) => {
-  const { customer, ...userData } = req.body;
-  const result = await UserService.createCustomer(userData, customer);
+  const result = await UserService.createCustomer(req);
 
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,

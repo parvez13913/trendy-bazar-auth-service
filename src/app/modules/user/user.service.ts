@@ -5,7 +5,6 @@ import { Customer } from "../customer/customer.model";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
 import { User } from "./user.model";
-import { ISeller } from "../seller/seller.interface";
 import { Seller } from "../seller/seller.model";
 import { IAdmin } from "../admin/admin.interface";
 import { Admin } from "../admin/admin.model";
@@ -17,7 +16,16 @@ import { Request } from "express";
 import { IUploadFile } from "../../../interfaces/file";
 import { FileUploadHelper } from "../../../helpers/fileUploadHelper";
 
-const createCustomer = async (user: IUser, customer: ICustomer): Promise<IUser | null> => {
+const createCustomer = async (req: Request): Promise<IUser | null> => {
+
+  const file = req.file as IUploadFile;
+  const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
+
+  const { customer, ...user } = req.body;
+  // set role
+  user.role = 'customer';
+  user.email = customer?.email;
+  customer.profileImage = uploadedImage?.secure_url;
 
   // set role
   user.role = 'customer';
@@ -57,14 +65,11 @@ const createSeller = async (req: Request): Promise<IUser | null> => {
   const file = req.file as IUploadFile;
   const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
 
-  if (uploadedImage) {
-    req.body.profileImage = uploadedImage.secure_url;
-  };
-
   const { seller, ...user } = req.body;
   // set role
   user.role = 'seller';
   user.email = seller?.email;
+  seller.profileImage = uploadedImage?.secure_url;
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {

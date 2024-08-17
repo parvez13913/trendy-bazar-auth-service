@@ -31,7 +31,12 @@ router.get(
 
 router.post(
   "/createCustomer",
-  UserController.createCustomer
+  FileUploadHelper.upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = UserValidation.createCustomerZodSchema.parse(JSON.parse(req.body.data));
+
+    return UserController.createCustomer(req, res, next);
+  }
 );
 
 router.post(
