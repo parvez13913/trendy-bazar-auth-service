@@ -10,6 +10,17 @@ const createToken = (
   });
 };
 
+const createPasswordResetToken = (
+  payload: Record<string, unknown>,
+  secret: Secret,
+  expireTime: string
+): string => {
+  return jwt.sign(payload, secret, {
+    algorithm: 'HS256',
+    expiresIn: expireTime,
+  });
+};
+
 const verifiedToken = (token: string, secret: Secret): JwtPayload => {
   return jwt.verify(token, secret) as JwtPayload;
 };
@@ -17,4 +28,5 @@ const verifiedToken = (token: string, secret: Secret): JwtPayload => {
 export const JwtHelpers = {
   createToken,
   verifiedToken,
+  createPasswordResetToken
 };

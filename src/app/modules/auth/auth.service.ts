@@ -5,6 +5,11 @@ import { ILoginUser, ILoginUserResponse, IRefreshTokenResponse } from "./auth.in
 import { JwtHelpers } from "../../../helpers/jwtHelpers";
 import { Secret } from "jsonwebtoken";
 import config from "../../../config";
+import { ENUM_USER_ROLE } from "../../../enum/user";
+import { Admin } from "../admin/admin.model";
+import { Customer } from "../customer/customer.model";
+import { Seller } from "../seller/seller.model";
+import { sendEMail } from "./auth.sendMail";
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse | null> => {
   const { email, password } = payload;
@@ -75,9 +80,50 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
 };
 
 
+const forgotPassword = async (payload: { email: string }) => {
+  const user = await User.findOne({ email: payload?.email }, { email: 1, role: 1 });
+
+
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User does not exist!');
+  };
+
+  let profile = null;
+
+  if (user?.role === ENUM_USER_ROLE.ADMIN) {
+    profile = await Admin.findOne({ email: user?.email });
+  } else if (user?.role === ENUM_USER_ROLE.CUSTOMER) {
+    profile = await Customer.findOne({ email: user?.email });
+  } else if (user?.role === ENUM_USER_ROLE.SELLER) {
+    profile = await Seller.findOne({ email: user?.email });
+  };
+
+  if (!profile) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Profile  not found!');
+  };
+
+  if (!profile?.email) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email  not found!');
+  };
+
+  const passwordResetToken = await JwtHelpers.createPasswordResetToken({ id: user?.id }, config.jwt.secret as string, '5m');
+
+  const resetLink: string = config.resetLink + `token=${passwordResetToken}`;
+
+  await sendEMail(profile?.email, `
+    <div>
+       <p>Hi, ${profile?.name?.firstName}</p>
+       <p>your password reset link: <a href=${resetLink}>Click Here</a></p>
+       <p>Thank you</p>
+    </div>`);
+
+};
+
+
 
 
 export const AuthService = {
   loginUser,
   refreshToken,
-}
+  forgotPassword,
+};

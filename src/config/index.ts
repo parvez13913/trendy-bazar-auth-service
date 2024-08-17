@@ -21,6 +21,9 @@ export default {
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
-  }
+  },
+  resetLink: process.env.RESET_PASSWORD_UI_LINK,
+  email: process.env.EMAIL,
+  appPassword: process.env.APP_PASSWORD
 };
 

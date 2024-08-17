@@ -1,0 +1,23 @@
+import nodemailer from 'nodemailer';
+import config from '../../../config';
+
+export async function sendEMail(
+  to: string, html: string
+) {
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: config.email,
+      pass: config.appPassword,
+    },
+  });
+
+  await transporter.sendMail({
+    from: config.email,
+    to,
+    subject: "Reset password lonk",
+    html
+  });
+};
