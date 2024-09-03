@@ -21,20 +21,17 @@ const createCustomer = async (req: Request): Promise<IUser | null> => {
   const file = req.file as IUploadFile;
   const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
 
-  const { customer, ...user } = req.body;
-  // set role
-  user.role = 'customer';
-  user.email = customer?.email;
-  customer.profileImage = uploadedImage?.secure_url;
+  const { ...user } = req.body;
 
   // set role
   user.role = 'customer';
-  user.email = customer?.email;
+  user.email = req.body?.email;
+  req.body.profileImage = uploadedImage?.secure_url;
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const newCustomer = await Customer.create([customer], { session });
+    const newCustomer = await Customer.create([req.body], { session });
 
     if (!newCustomer.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Fail to create customer');

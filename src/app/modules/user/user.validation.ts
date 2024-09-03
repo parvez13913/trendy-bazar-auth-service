@@ -46,42 +46,42 @@ const createSellerZodSchema = z.object({
 })
 
 const createCustomerZodSchema = z.object({
+  name: z.object({
+    firstName: z.string({
+      required_error: 'First name is required',
+    }),
+    middleName: z.string().optional(),
+    lastName: z.string({
+      required_error: 'Last name is required',
+    })
+  }),
+
+  email: z.string({
+    required_error: 'Email is required',
+  }).email(),
+
   password: z.string({
     required_error: 'Password is required',
   }),
-  customer: z.object({
-    name: z.object({
-      firstName: z.string({
-        required_error: 'First name is required',
-      }),
-      middleName: z.string().optional(),
-      lastName: z.string({
-        required_error: 'Last name is required',
-      })
+
+  gender: z.enum([...gender] as [string, ...string[]],
+    {
+      required_error: 'Gender is required',
     }),
 
-    gender: z.enum([...gender] as [string, ...string[]],
-      {
-        required_error: 'Gender is required',
-      }),
+  dateOfBirth: z.string().optional(),
 
-    dateOfBirth: z.string().optional(),
-
-    email: z.string({
-      required_error: 'Email is required',
-    }).email(),
-
-    contactNo: z.string({
-      required_error: 'Contact no is required',
-    }),
-    emergencyContactNo: z.string().optional(),
-
-    bloodGroup: z.enum([...bloodGroup] as [string, ...string[]]).optional(),
-
-    presentAddress: z.string().optional(),
-
-    permanentAddress: z.string().optional(),
+  contactNo: z.string({
+    required_error: 'Contact no is required',
   }),
+  emergencyContactNo: z.string().optional(),
+
+  bloodGroup: z.enum([...bloodGroup] as [string, ...string[]]).optional(),
+
+  presentAddress: z.string().optional(),
+
+  permanentAddress: z.string().optional(),
+
 });
 
 const createAdminZodSchema = z.object({

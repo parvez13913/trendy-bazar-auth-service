@@ -10,13 +10,13 @@ export type CustomerName = {
 export type ICustomer = {
   name: CustomerName;
   gender: 'male' | 'female' | 'other';
-  dateOfBirth: string;
+  dateOfBirth?: string;
   email: string;
   contactNo: string;
-  emergencyContactNo: string;
+  emergencyContactNo?: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
-  presentAddress: string;
-  permanentAddress: string;
+  presentAddress?: string;
+  permanentAddress?: string;
   profileImage?: string;
 };
 
