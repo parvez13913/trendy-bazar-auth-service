@@ -65,16 +65,16 @@ const createSeller = async (req: Request): Promise<IUser | null> => {
   const file = req.file as IUploadFile;
   const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
 
-  const { seller, ...user } = req.body;
+  const { ...user } = req.body;
   // set role
   user.role = 'seller';
-  user.email = seller?.email;
-  seller.profileImage = uploadedImage?.secure_url;
+  user.email = req.body?.email;
+  req.body.profileImage = uploadedImage?.secure_url;
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const newCustomer = await Seller.create([seller], { session });
+    const newCustomer = await Seller.create([req.body], { session });
 
     if (!newCustomer.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Fail to create seller');

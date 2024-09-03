@@ -38,7 +38,6 @@ export const sellerSchema = new Schema<ISeller, SellerModel>({
   },
   emergencyContactNo: {
     type: String,
-    required: true,
   },
   bloodGroup: {
     type: String,
@@ -46,11 +45,9 @@ export const sellerSchema = new Schema<ISeller, SellerModel>({
   },
   presentAddress: {
     type: String,
-    required: true,
   },
   permanentAddress: {
     type: String,
-    required: true,
   },
   profileImage: {
     type: String,

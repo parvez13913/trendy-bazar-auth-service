@@ -13,10 +13,10 @@ export type ISeller = {
   dateOfBirth: string;
   email: string;
   contactNo: string;
-  emergencyContactNo: string;
+  emergencyContactNo?: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
-  presentAddress: string;
-  permanentAddress: string;
+  presentAddress?: string;
+  permanentAddress?: string;
   profileImage?: string;
 };
 
