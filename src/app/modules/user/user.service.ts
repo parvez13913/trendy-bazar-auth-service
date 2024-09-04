@@ -184,8 +184,8 @@ const getAllUsers = async (filters: IUserFilters, paginationOptions: IPagination
   };
 };
 
-const getSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findOne({ _id: id });
+const getSingleUser = async (email: string): Promise<IUser | null> => {
+  const result = await User.findOne({ email: email });
 
   return result;
 };

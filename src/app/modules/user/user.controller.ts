@@ -56,8 +56,9 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const result = await UserService.getSingleUser(id);
+
+  const userEmail = req.params.id;
+  const result = await UserService.getSingleUser(userEmail);
 
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
