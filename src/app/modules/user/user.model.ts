@@ -19,6 +19,30 @@ const usersSchema = new Schema<IUser, UserModel>(
       required: true,
       select: 0,
     },
+    name: {
+      type: {
+        firstName: {
+          type: String,
+          require: true,
+        },
+        middleName: {
+          type: String,
+        },
+        lastName: {
+          type: String,
+          required: true,
+        },
+      },
+    },
+    gender: {
+      type: String,
+    },
+    contactNo: {
+      type: String,
+    },
+    profileImage: {
+      type: String,
+    },
     seller: {
       type: Schema.Types.ObjectId,
       ref: 'Seller',

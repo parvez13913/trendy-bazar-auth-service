@@ -3,12 +3,20 @@ import { IAdmin } from "../admin/admin.interface";
 import { ISeller } from "../seller/seller.interface";
 import { ICustomer } from "../customer/custome.interface";
 
+export type Name = {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+};
+
 export type IUser = {
   email: string;
   role: string;
   password: string;
-  passwordChangedAt?: Date;
-  needsPasswordChange: true | false;
+  name?: Name;
+  gender?: string;
+  contactNo?: string;
+  profileImage?: string;
   seller?: Types.ObjectId | ISeller;
   customer?: Types.ObjectId | ICustomer;
   admin?: Types.ObjectId | IAdmin;
