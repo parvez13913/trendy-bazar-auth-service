@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model } from 'mongoose';
 
 export type CustomerName = {
   firstName: string;
@@ -6,13 +6,12 @@ export type CustomerName = {
   lastName: string;
 };
 
-
 export type ICustomer = {
   name: CustomerName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth?: string;
   email: string;
-  contactNo: string;
+  contactNo?: string;
   emergencyContactNo?: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress?: string;
@@ -25,7 +24,5 @@ export type ICustomerfilters = {
   email?: string;
   contactNo?: string;
 };
-
-
 
 export type CustomerModel = Model<ICustomer, Record<string, unknown>>;
