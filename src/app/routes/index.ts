@@ -1,16 +1,13 @@
-import express from "express";
-import { SellerRoutes } from "../modules/seller/seller.route";
-import { CustomerRoutes } from "../modules/customer/customer.route";
-import { AdminRoutes } from "../modules/admin/admin.route";
-import { UserRoutes } from "../modules/user/user.route";
-import { AuthRoutes } from "../modules/auth/auth.route";
-import { BrandRoutes } from "../modules/brand/brand.route";
-import { ProductRoutes } from "../modules/product/product.route";
-
+import express from 'express';
+import { AdminRoutes } from '../modules/admin/admin.route';
+import { AuthRoutes } from '../modules/auth/auth.route';
+import { CustomerRoutes } from '../modules/customer/customer.route';
+import { ProductCategoryRoutes } from '../modules/product-category/product-category.route';
+import { ProductRoutes } from '../modules/product/product.route';
+import { SellerRoutes } from '../modules/seller/seller.route';
+import { UserRoutes } from '../modules/user/user.route';
 
 const router = express.Router();
-
-
 
 const moduleRoutes = [
   {
@@ -38,13 +35,11 @@ const moduleRoutes = [
     route: ProductRoutes,
   },
   {
-    path: '/brands',
-    route: BrandRoutes,
+    path: '/product-category',
+    route: ProductCategoryRoutes,
   },
 ];
 
-
 moduleRoutes.forEach(route => router.use(route.path, route.route));
-
 
 export default router;

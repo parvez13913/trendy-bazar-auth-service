@@ -1,5 +1,5 @@
-import { Model, Types } from "mongoose";
-import { IBrand } from "../brand/brand.interface";
+import { Model, Types } from 'mongoose';
+import { IBrand } from '../product-category/product-category.interface';
 
 export type IProduct = {
   productName: string;
@@ -15,6 +15,5 @@ export type IProductfilters = {
   productName?: string;
   price?: string;
 };
-
 
 export type ProductModel = Model<IProduct, Record<string, unknown>>;
