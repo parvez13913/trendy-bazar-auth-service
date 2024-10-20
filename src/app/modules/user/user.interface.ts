@@ -1,7 +1,7 @@
-import { Model, Types } from "mongoose";
-import { IAdmin } from "../admin/admin.interface";
-import { ISeller } from "../seller/seller.interface";
-import { ICustomer } from "../customer/custome.interface";
+import { Model, Types } from 'mongoose';
+import { IAdmin } from '../admin/admin.interface';
+import { ICustomer } from '../customer/custome.interface';
+import { ISeller } from '../seller/seller.interface';
 
 export type Name = {
   firstName: string;
@@ -16,31 +16,24 @@ export type IUser = {
   name?: Name;
   gender?: string;
   contactNo?: string;
-  profileImage?: string;
+  profileImage: string;
   seller?: Types.ObjectId | ISeller;
   customer?: Types.ObjectId | ICustomer;
   admin?: Types.ObjectId | IAdmin;
 };
 
-
-
 export type UserModel = {
   isUserExist(
-    email: string
-  ): Promise<Pick<
-    IUser,
-    'email' | 'password' | 'role'
-  > | null>;
+    email: string,
+  ): Promise<Pick<IUser, 'email' | 'password' | 'role'> | null>;
 
   isPasswordMatched(
     givenPassword: string,
-    savedPassword: string
+    savedPassword: string,
   ): Promise<boolean>;
 } & Model<IUser>;
-
 
 export type IUserFilters = {
   searchTerm?: string;
   email?: string;
 };
-

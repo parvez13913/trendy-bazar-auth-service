@@ -24,6 +24,7 @@ const createCustomer = async (req: Request): Promise<IUser | null> => {
   user.role = 'customer';
   user.email = req.body?.email;
   req.body.profileImage = uploadedImage?.secure_url;
+  user.profileImage = req.body.profileImage;
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {

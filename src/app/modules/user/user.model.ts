@@ -1,7 +1,7 @@
-import { model, Schema } from "mongoose";
-import { IUser, UserModel } from "./user.interface";
 import bcrypt from 'bcrypt';
-import config from "../../../config";
+import { model, Schema } from 'mongoose';
+import config from '../../../config';
+import { IUser, UserModel } from './user.interface';
 
 const usersSchema = new Schema<IUser, UserModel>(
   {
@@ -42,6 +42,7 @@ const usersSchema = new Schema<IUser, UserModel>(
     },
     profileImage: {
       type: String,
+      required: true,
     },
     seller: {
       type: Schema.Types.ObjectId,
@@ -61,24 +62,18 @@ const usersSchema = new Schema<IUser, UserModel>(
     toJSON: {
       virtuals: true,
     },
-  }
+  },
 );
 
 usersSchema.statics.isUserExist = async function (
-  email: string
-): Promise<Pick<
-  IUser,
-  'email' | 'password' | 'role'
-> | null> {
-  return await User.findOne(
-    { email },
-    { email: 1, password: 1, role: 1 }
-  );
+  email: string,
+): Promise<Pick<IUser, 'email' | 'password' | 'role'> | null> {
+  return await User.findOne({ email }, { email: 1, password: 1, role: 1 });
 };
 
 usersSchema.statics.isPasswordMatched = async function (
   givenPassword: string,
-  savedPassword: string
+  savedPassword: string,
 ): Promise<boolean> {
   return await bcrypt.compare(givenPassword, savedPassword);
 };
@@ -88,11 +83,9 @@ usersSchema.pre('save', async function (next) {
   const user = this;
   user.password = await bcrypt.hash(
     user.password,
-    Number(config.bcrypt_salt_rounds)
+    Number(config.bcrypt_salt_rounds),
   );
   next();
 });
-
-
 
 export const User = model<IUser, UserModel>('User', usersSchema);

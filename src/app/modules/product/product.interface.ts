@@ -1,5 +1,5 @@
 import { Model, Types } from 'mongoose';
-import { IBrand } from '../product-category/product-category.interface';
+import { IProductCategory } from '../product-category/product-category.interface';
 
 export type IProduct = {
   productName: string;
@@ -7,7 +7,7 @@ export type IProduct = {
   quantity: number;
   price: number;
   productImage?: string;
-  brand: Types.ObjectId | IBrand;
+  productCategory: Types.ObjectId | IProductCategory;
 };
 
 export type IProductfilters = {
